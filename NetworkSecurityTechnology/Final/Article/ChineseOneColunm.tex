@@ -1,0 +1,395 @@
+\documentclass[12pt]{article}
+% ----------------------------------------Packages begin
+\usepackage[a4paper,left=25mm,right=25mm,top=25mm,bottom=25mm]{geometry}  
+\usepackage{ctex}        % 中文库
+\usepackage{titletoc}    % 目录库
+\usepackage{fancyhdr}    % 页眉库
+\usepackage{url}         % 链接库
+\usepackage{graphicx}    % 图片库
+\usepackage{float}       % 数学库
+\usepackage{amsmath}     % 复杂数学库
+\usepackage{amssymb}     % 花体字符库
+\usepackage{algorithm}   % 算法流程图库
+\usepackage{algorithmic} % 算法流程图库
+\usepackage{listings}    % 代码块库
+\usepackage{xcolor}      % 代码块颜色库
+\usepackage{multirow}    % 多行合并表格库
+\usepackage{array}       % 表格库
+\usepackage{booktabs}    % 三线表库
+% ----------------------------------------Packages end
+% ----------------------------------------En-Font Settings begin
+\setmainfont{Times New Roman}
+% ----------------------------------------En-Font Settings end
+% ----------------------------------------Code Block begin
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,          % 字符串风格
+    flexiblecolumns,                            % 别问为什么，加上这个
+    numbers             =   left,               % 行号的位置在左边
+    showspaces          =   false,              % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,% 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,                  % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,               % 显示边框
+}
+\lstdefinestyle{Python}{
+    language        =   Python,                 % 语言选Python
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,                   % 自动换行，建议不要写太长的行
+    columns         =   fixed,                  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+\lstdefinestyle{C++}{
+    language        =   C++,                    % 语言选C++
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,                   % 自动换行，建议不要写太长的行
+    columns         =   fixed,                  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+% ----------------------------------------Code Block end
+% ----------------------------------------Document begin
+\begin{document}
+% Linespread begin
+\linespread{1.5}
+% Linespread end
+% Head begin
+\pagestyle{fancy}
+\fancyhead[C]{基于神经密码学的密钥交换协议研究综述}
+\fancyhead[L, R]{}
+% Head end
+% Title begin
+\pagenumbering{Roman}
+\title{\songti \zihao{2} \textbf{基于神经密码学的密钥交换协议研究综述}}
+\author{\fangsong \zihao{-3}网络空间安全\quad 赵正一}
+\date{}
+\maketitle
+% Title end
+% Abstract begin
+\ctexset{abstractname = {\zihao{-4}摘要}}
+\begin{abstract}
+    \zihao{-4}\fangsong 密钥交换协议是密码学研究的主要问题之一。
+    \zihao{-4}\fangsong 神经密码学是最近发展起来的一种非经典的密码算法，他通过接受两个相同输入模式的神经网络之间的相互学习（Mutual Learning）来实现密钥交换，并使用特定的规则来更新彼此的权重。
+    \zihao{-4}\fangsong 网络的每个权重分量都可以看作是权重空间中的一个随机游走。
+    \zihao{-4}\fangsong 两个状态在同一个空间内运动，并在两个边界上吸收，以保证达成相同权重的更新结果。
+    \zihao{-4}\fangsong 本文以树奇偶校验机为例，介绍了神经密码学在密钥交换研究领域上的贡献。
+    \zihao{-4}\fangsong 并且通过使用预共享的机制对互相学习进行了一定程度上的改进。\\
+    \zihao{-4} \textbf{\heiti 关键字：}神经密码学；相互学习；密钥交换协议；树奇偶校验机
+\end{abstract}
+\ctexset{abstractname = {\zihao{-4}Abstract}}
+\begin{abstract}
+    \zihao{-4}Key exchange is one of the major concerns in cryptology.
+    \zihao{-4}Neural cryptography is a recent non-classical paradigm neural networks that receive the same input patterns and update their weights using specific rules.
+    \zihao{-4}Each weight component of the network can be seen as a random walker in the weightspace.
+    \zihao{-4}The two walkers move in the weights space and reflect at two boundaries to reach the identical weight as updating results.
+    \zihao{-4}This paper introduced the contribution of neural cryptography on key exchange protocol field based on Tree Parity Machine.
+    \zihao{-4}We also make some further improvment on mutual learning by using pre-shared machanism.\\
+    \zihao{-4} \textbf{\heiti Keywords：}Neural Cryptography; Mutual Learning; Key Exchange Protocol; Tree Parity Machine
+\end{abstract}
+% Abstract end
+% Contents begin
+\newpage
+\tableofcontents
+\contentsmargin{0pt}
+\renewcommand\contentspage{\thecontentspage}
+\dottedcontents{section}[20pt]{\vspace{1mm}\bfseries\songti\zihao{-4}}{25pt}{5pt}
+\dottedcontents{subsection}[50pt]{\vspace{1mm}\songti\zihao{-4}}{30pt}{5pt}
+\dottedcontents{subsubsection}[80pt]{\vspace{1mm}\songti\zihao{-4}}{40pt}{5pt}
+% Contents end
+% Article begin
+\newpage
+\pagenumbering{arabic}
+\section{\songti\zihao{-4}背景介绍}
+
+\songti\zihao{-4}密钥交换问题是经典密码学\cite{1}\cite{2}\cite{3}\cite{4}的主要研究内容之一，在经典密码学中得到了广泛的研究。
+\songti\zihao{-4}首个公开的密钥交换协议是基于数论问题而提出的，Diffie-Hellman密钥交换协议\cite{2}就是在这个基础上开展研究的，并且Diffie-Hellman密钥交换协议使得密钥交换问题得到了更多人的关注。
+\songti\zihao{-4}虽然它是依赖于离散对数的计算困难性，但是它很容易受到中间人攻击\cite{1}。
+
+\songti\zihao{-4}为了达成通信双方密钥相等，我们还可以采用神经网络的方式。
+\songti\zihao{-4}两个神经网络通过对彼此的输出进行某种规则的更新权重，通过相互学习\cite{5}的方式达成权重相等的目的。
+\songti\zihao{-4}这个相等的权重，就可以拿来作为会话密钥使用。
+\songti\zihao{-4}这就是神经密码学。
+\songti\zihao{-4}神经密码学的优点是生成会话密钥的算法非常的简单快捷。
+\songti\zihao{-4}训练中使用的网络可以是一个最简单的多层感知机。
+
+\songti\zihao{-4}神经网络的学习是一个经验化的行为。
+\songti\zihao{-4}这个概念已经在统计学的模型和方法中得到了广泛的研究\cite{6}\cite{7}。
+\songti\zihao{-4}模型的训练是一个动态的过程。
+\songti\zihao{-4}对于训练语料的学习是由静态的网络一步一步生成出来的。
+\songti\zihao{-4}模型在学习了训练语料后，在使用测试语料来验证模型效果，期望达到的目标就是能够无限逼近于曾经学习过的“知识”。
+\songti\zihao{-4}在形式化的证明中，对于一大类模型来说，学习和泛化的能力可以用由多个参数决定的常微分方程来描述。
+
+\songti\zihao{-4}相互学习是在这个基础上做了更深一步的发展。
+\songti\zihao{-4}两个通信双方接收同样的输入向量，生成一个输出结果，并通过彼此的输出结果，在某种规则的约束下，更新自己神经网络的权重。
+\songti\zihao{-4}最终达成通信双方的神经网络权重相等。
+\songti\zihao{-4}或者也叫权重对齐。
+
+\section{\songti\zihao{-4}模型介绍}
+\subsection{\songti\zihao{-4}多层感知机}
+
+\songti\zihao{-4}人工神经网络的诞生源自于真实的神经网络。
+\songti\zihao{-4}人们通过研究神经元的特性发现，学习可以被看作是在神经元之间建立新的连接或者是对已经有的类似于连接的物质进行修改的过程。
+\songti\zihao{-4}所以对于人工神经网络来说， 就要建立起权重与输入相乘最终得到某个结果的等式。
+\songti\zihao{-4}其中$W$是权重矩阵，$X$是输入矩阵，$o$是对应的输出。
+
+\songti\zihao{-4}神经网络是有多层神经元群组成的，由泰勒展开公式可知，一个特定的函数可以分解为多个非线性函数的加和，也可以说多个非线性函数加和的时候，可以模拟出某一个特定的函数。
+\begin{equation}
+    f(x)=\frac{f(x_0)}{0!}+\frac{f^{'}(x_0)}{1!}(x-x_0)+...+\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n+R_n(x)
+\end{equation}
+\songti\zihao{-4}基于这个想法，我们将输入的$x$，匹配某个权重$w$，再增添某个偏置$b$，就可以得到对于输入$x$的线性函数。
+\songti\zihao{-4}再将结果输入某个激活函数中，得到最终结果。
+\begin{equation}
+    f(x)=sign(wx+b)
+\end{equation}
+\songti\zihao{-4}我们将由输入空间到输出空间的到的函数称为感知机。
+\songti\zihao{-4}多个神经元以全连接形式层次相连，形成的网络称为前馈神经网络，也称为多层感知机（MLP），由泰勒展开可以得知，MLP理论上可以模拟所有函数。
+\songti\zihao{-4}其中模型为$y=F(x)$，训练数据为$D={x_i,y_i}^n_{i=1}$，预测数据为$\hat{y_i}=F(x_i)$，训练目标为$\mathrm{min}(|\hat{y_i}-y_i|)$。
+
+\songti\zihao{-4}通过多层感知机，我们可以得到最终的函数如下：
+\begin{equation}
+    y=F(x)=f_3(W_3,f_2(W_2,f_1(W_1,x)))
+\end{equation}
+\songti\zihao{-4}并且通过梯度下降法优化目标。
+\begin{equation}
+    E=\frac{1}{2}\sum_{i=1}^n(y_i-\hat{y_i})^2
+\end{equation}
+\songti\zihao{-4}梯度是误差对于权重的偏导数，误差通过下面的公式更新参数。
+\begin{equation}
+    W^{t+1}=W^t-\eta_t\frac{\partial E}{\partial W}
+\end{equation}
+\songti\zihao{-4}由于偏导数存在链式法则，我们可以通过从后向前反向传播的方式计算梯度。
+\begin{equation}
+    \frac{\partial E}{\partial W_1}=\frac{\partial E}{\partial f_3}\centerdot\frac{\partial f_3}{\partial f_2}\centerdot\frac{\partial f_2}{\partial f_1}\centerdot\frac{\partial f_1}{\partial W_1}
+\end{equation}
+\songti\zihao{-4}但是梯度下降法存在以下问题：目标函数通常不是标准的凸函数，所以非常容易陷入局部最优解而不是全局最优解；网络层数增多后，容易出现梯度消失或者梯度爆炸问题。
+
+\subsection{\songti\zihao{-4}树奇偶校验机}
+
+\songti\zihao{-4}树奇偶校验机（Tree Parity Machine，TPM）由$K$个隐藏单元组成，其输入向量是$X$，初始权重是$W$，输出单元是$\sigma_k$\cite{5}：
+\begin{align}
+    X\subset x_{ij}&\in\{-L,\cdots,0,\cdots,+L\} \notag\\
+    W\subset w_{ij}&\in\{-L,\cdots,0,\cdots,+L\} \notag
+\end{align}
+\begin{equation}
+    \sigma_k=\mathrm{sign}(\sum_{j=1}^Nw_{ij}x_{ij})
+\end{equation}
+\songti\zihao{-4}其中，$\mathrm{sign}(\cdot)$函数代表取自变量的数学符号，用来表示自变量的正负形，所以有：
+$$\mathrm{sign}(\cdot)\in\{-1,0,+1\}$$
+\songti\zihao{-4}TPM最终的输出为$\tau$：
+\begin{equation}
+    \tau^{A/B}=\prod_{k=1}^K\sigma_k^{A/B}
+\end{equation}
+
+\subsubsection{\songti\zihao{-4}TPM构建}
+
+\songti\zihao{-4}TPM的构建是一个动态的过程，通过多轮对比最终构建并同步好彼此的神经网络。其构建流程如下：
+\begin{algorithm}[H]
+    \caption{TPM双方同步按照以下流程执行}
+    \label{alg:4}
+    \begin{algorithmic}[1]
+        \STATE 随机初始化权重矩阵$w_{ij}^{A/B}$；
+        \WHILE {$w_{ij}^A\ne w_{ij}^B$}
+            \STATE 随机生成相同的输入矩阵$x_{ij}$；
+            \STATE 计算$\sigma_i^{A/B}$和$\tau^{A/B}$的结果；
+            \FORALL {$\tau^A$和$\tau^B$，比较他们的结果，并按照如下结果继续执行}
+                \STATE $\tau^A=\tau^B$：更新彼此的权重；
+                \STATE $\tau^A\ne\tau^B$：回到第三步；
+            \ENDFOR
+        \ENDWHILE
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{\songti\zihao{-4}TPM学习规则}
+
+\songti\zihao{-4}如2.2.1中的流程图所示，在进行到第6步的时候，需要按照特定的规则来更新神经网络的权重，通常我们会使用以下三种更新方法\cite{5}\cite{8}：
+\begin{enumerate}
+    \item \songti\zihao{-4}Hebbian算法
+          \begin{equation}
+              w_i^+=g(w_i+\sigma_ix_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+          \end{equation}
+    \item \songti\zihao{-4}Anti-Hebbian算法
+    \begin{equation}
+        w_i^+=g(w_i-\sigma_ix_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+    \end{equation}
+    \item \songti\zihao{-4}Random walk算法
+    \begin{equation}
+        w_i^+=g(w_i+x_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+    \end{equation}
+\end{enumerate}
+\songti\zihao{-4}其中，$\theta(x,y)$代表了$x$和$y$的相等关系，$g$函数表示某种运算法则使得运算后的结果仍然保持在原运算空间内：
+\begin{equation}
+    \theta(x,y)=\begin{cases}
+        1, & x=y\\
+        0, & x\ne y
+    \end{cases}
+\end{equation}
+
+\subsection{\songti\zihao{-4}收敛性分析}
+
+\songti\zihao{-4}通过上述公式可以得到，如果双方的最终输出$\tau^A=\tau^B$，而且对于每一个神经网络来说，每个$\tau=\sigma_k$的神经元都有且只可能有以下三种运动情况：
+\paragraph{\songti\zihao{-4}共同运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是相等的，那么Alice和Bob双方的神经网络对应的神经单元都会发生权重更新，而且由于每一轮的输入矩阵是相同的，在相同的运算法则下，他们的运动方向一定是同向的。
+\begin{equation}
+    \sigma_k^A=\sigma_k^B=\tau^{A/B}
+\end{equation}
+\paragraph{\songti\zihao{-4}某一方单独运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是不等的，那么Alice和Bob双方的神经网络对应的神经单元只有一方会发生权重更新。
+\begin{equation}
+    \sigma_k^A\ne\sigma_k^B
+\end{equation}
+\paragraph{\songti\zihao{-4}不运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是相等的但是都不等于最终的数据结果，那么Alice和Bob双方的神经网络对应的神经单元都不会发生权重更新，他们不做运动，或者也可以近似看作他们的运动方向是同向的。
+\begin{equation}
+    \sigma_k^A=\sigma_k^B\ne\tau^{A/B}
+\end{equation}
+
+\songti\zihao{-4}在此基础上，我们可以定义两个神经单元的距离。
+\songti\zihao{-4}本文把同一位置上不同神经网络的隐藏单元看作是在同一条直线上运动的两个动点。
+\songti\zihao{-4}由上面的运动情况分析有，他们要么同向运动，要么一方不运动，另一方运动。
+\songti\zihao{-4}我们定义两点之间的距离为：
+\begin{equation}
+    \rho_k=\frac{w_k^A\cdot w_k^B}{\sqrt{w_k^A\cdot w_k^A}\cdot\sqrt{w_k^B\cdot w_k^B}}
+\end{equation}
+\songti\zihao{-4}其中，$0<\rho_k<1$。当$\rho_k=0$的时候，我们认为动点处于开始位置；当$\rho_k=1$，我们认为同步结束，双方的权重矩阵相等。
+
+\songti\zihao{-4}因为神经网络的隐藏单元的深度L是一定的，所以对于上述我们简化撑的直线上两动点运动这个模型来说，动点的运动是有边界的。
+\songti\zihao{-4}进入边界后，如果继续同向运动，动点被边界吸收，如果与边界反向运动，动点被边界反射。
+
+\begin{figure}[H]
+    \label{fig:pic1}
+    \centering
+    \includegraphics[scale=0.6,clip]{../Pics/1.png}
+    \caption{\fangsong 动点运动近似模拟模型}
+\end{figure}
+
+\songti\zihao{-4}所以两动点的运动长度可以近似为$m=2L+1$。故两动点一定会相遇，而且相遇的可能仅与时间相关。
+\songti\zihao{-4}所以通信双方使用相同规模的神经网络，在一定时间内的相互学习后，权重矩阵一定会相等。
+
+\subsection{安全性分析}
+
+\songti\zihao{-4}安全性分析的条件是，在每一次由Eve发起的攻击中，都认为Eve可以在Alice和Bob之间窃听消息，但没有机会更改他们。
+\songti\zihao{-4}在这个条件下，我们讨论暴力破解和模拟攻击。
+
+\subsubsection{暴力破解}
+
+\songti\zihao{-4}对于一个输入矩阵规模为$K\times N$的输入，隐藏层的权重矩阵$W$的规模为$K$，权重矩阵和输入矩阵的深度都是$L$。
+\songti\zihao{-4}在这样的条件下， 一共有$(2L+1)^{KN}$种会话密钥的可能性。
+\songti\zihao{-4}假设当前神经网络仅仅是一个$K=3$，$N=100$，$L=3$的模型，它的计算规模也已经达到了$3\times 10^{253}$。
+\songti\zihao{-4}这对于目前的计算能力来说，暴力破解是不可能的。
+
+\subsubsection{模拟攻击}
+
+\songti\zihao{-4}模拟攻击建立在窃听者Eve建立了一个与Alice和Bob相同的神经网络，并且在Alice与Bob的通信交流过程中全程窃听并记录下了内容。
+\songti\zihao{-4}试图通过与Alice或Bob一起更新权重以达到三者权重相同的目的。
+\songti\zihao{-4}下面我们分析这种攻击的可能性。
+
+\songti\zihao{-4}在这样的情况下，攻击者Eve一共有三种可能的选择：
+\begin{enumerate}
+    \item $\tau^A\ne\tau^B$：\songti\zihao{-4}三方均不更新权重。
+    \item $\tau^A=\tau^B=\tau^E$：\songti\zihao{-4}Alice和Bob双方因为具有相同的更新条件，所以采用约定好的更新规则更新权重。Eve因为自身的结果和Alice以及Bob相等，所以Eve也根据窃听到的更新权重规则更新自己的权重。
+    \item $\tau^A=\tau^B\ne\tau^E$：\songti\zihao{-4}Alice和Bob双方因为具有相同的更新条件，所以采用约定好的更新规则更新权重。但是Eve的结果并不相同，所以Eve不更新自己的权重。
+\end{enumerate}
+
+\songti\zihao{-4}事实证明，由于概率存在，所以Eve的更新效率要远低于Alice和Bob双方更新权重的效率。
+\songti\zihao{-4}所以Eve概率上永远也无法先于Alice或Bob同步权重。
+
+\section{实验验证}
+\subsection{实验环境和设置}
+
+\songti\zihao{-4}本文所做的实验是在如下环境下开展的：
+\begin{enumerate}
+    \item \songti\zihao{-4}操作系统：Ubuntu 20.04.2
+    \item \songti\zihao{-4}语言环境：Python 3.6.12 :: Anaconda, Inc.
+    \item \songti\zihao{-4}依赖库：
+    \begin{enumerate}
+        \item \songti\zihao{-4}numpy：1.19.5
+        \item \songti\zihao{-4}matplotlib：3.3.4
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{实验过程}
+
+\songti\zihao{-4}首先，我们需要搭建树奇偶校验机的神经网络。
+\songti\zihao{-4}其中$k$，$n$，$l$是超参数，分别代表了神经网络的核数目，输入的维度以及神经网络的深度。
+\songti\zihao{-4}这里的深度重点体现在了权重矩阵$W$和输入矩阵$X$的取值范围，也是神经密码学安全性的体现。
+\songti\zihao{-4}在实验中，本文使用了numpy库中的random函数，来初始化神经网络的权重矩阵。
+\songti\zihao{-4}权重矩阵是一个形状为$k\times n$的矩阵，深度为$[-l,l]$。
+
+\songti\zihao{-4}代码如下：
+\lstinputlisting[
+    style       =   Python,
+    caption     =   {\bf BuildMachine.py},
+    label       =   {BuildMachine.py}
+]{../Code/BuildMachine.py}
+
+\songti\zihao{-4}之后，根据树奇偶校验机的计算法则计算最终结果$\tau$。
+
+\songti\zihao{-4}代码如下：
+\lstinputlisting[
+    style       =   Python,
+    caption     =   {\bf Calculation.py},
+    label       =   {Calculation.py}
+]{../Code/Calculation.py}
+
+\songti\zihao{-4}最后，根据选定的更新权重规则来更新权重，通过不断的迭代循环，可以在可接受的运算规模上，完成双方权重的对齐。
+
+\songti\zihao{-4}代码如下：
+\lstinputlisting[
+    style       =   Python,
+    caption     =   {\bf Update.py},
+    label       =   {Update.py}
+]{../Code/Update.py}
+
+\songti\zihao{-4}最终，实验结果如下所示。Alice和Bob在更新了718轮权重后完成了权重对齐，并且将相等的权重矩阵作为协商好的会话密钥使用。
+\lstinputlisting[
+    style       =   Python,
+    caption     =   {\bf Result.txt},
+    label       =   {Result.txt}
+]{../Code/Result.txt}
+
+\songti\zihao{-4}同时可以看到，Eve只与Alice或Bob一起更新了118轮权重更新，还远远没有达到权重相等的地步。
+\songti\zihao{-4}所以也验证了模拟攻击是无法破坏这一协议的。
+\lstinputlisting[
+    style       =   Python,
+    caption     =   {\bf Attack.txt},
+    label       =   {Attack.txt}
+]{../Code/Attack.txt}
+
+\section{总结与展望}
+
+\songti\zihao{-4}本文以采用TPM算法进行密钥交换的实验为基础，研究了神经密码学在密钥交换协议上的应用。
+\songti\zihao{-4}通过相互学习的方法，最终在比较小的计算开销上完成了密钥交换的功能。
+\songti\zihao{-4}同时，针对输入矩阵和权重矩阵边界的问题进行了一定程度上的改进。
+\songti\zihao{-4}最终，通过实验验证了Alice和Bob秘密通信协商密钥的可能性，也验证了这种算法可以抵挡暴力破解和模拟攻击。
+
+\songti\zihao{-4}在未来，基于神经密码学的密钥交换协议仍然应当受到重视，通过在曲线空间上构建边界来使得同步攻击变得完全不可能。
+\songti\zihao{-4}通过研究散列函数，确定适合TPM的权重矩阵的动态长度，而不是仅依赖与神经网络深度$l$。
+\songti\zihao{-4}同时，应该增强模型的可解释性，对于黑盒的神经网络，应该明确信息流在模型内部的传播，以形式化保证通信的安全性。
+
+% Article end
+% Conferences begin
+\clearpage
+\begin{thebibliography}{99}
+    \bibitem{1}William Stallings. \textit{Cryptography and Network Seurity-3rd edition}, Prentice Hall, 2003.
+    \bibitem{2}W. Diffie and M. E. Hellman, \textit{New directions in cryptography}, IEEE Transactions on Information Theory, vol. 22, pp. 644-654, 1976.
+    \bibitem{3}Alfred J. Menezes, Paul C. van Oorschot and Scott A. Vanstone. \textit{Handbook of Applied Cryptography}. CRC Press, 1997.
+    \bibitem{4}Bruce Schneier. \textit{Applied Cryptography-2nd edition}. Addison Wiley, New York, 1996.
+    \bibitem{5}Einat Klein, Rachel Mislovaty, Ido Kanter, Andreas Ruttor, and Wolf-gang Kinzel, \textit{Synchronization of neural networks by mutual learning and its aplication to cryptography}, Advances in Neural Informaiton Processing Systems 17, MIT press pp. 689-696, 2005.
+    \bibitem{6}J. Hertz, A. Krogh, and R. G. Palmer, \textit{Introduction to the Theory of Neural Computation}, Addison Wesley, Redwood City, 1991.
+    \bibitem{7}A. Engel, and C. Van den Broeck, \textit{Statistical Mechan-ics of Learning}, Cambridge University Press, 2001.
+    \bibitem{8}Lanir Shacham, Einat Klein, Rachel Mislovaty, Ido Kanter, and Wolf-gang Kinzel, \textit{Neural cryptography with feedback}, Phys. Rev. E 69, 046110, 2004.
+\end{thebibliography}
+% Conferences end
+\end{document}
+% ----------------------------------------Document end

@@ -1,0 +1,7 @@
+$ python TreeParityMachine.python
+
+  Creating machines : k = 100, n = 10, l = 10
+  Using hebbian update rule.
+  Synchronization = 100 % Updates = 718
+  Machines have been synchronized.
+  Time taken = 12.529 seconds.

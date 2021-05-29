@@ -1,0 +1,23 @@
+\ttl@change@i {\@ne }{section}{20pt}{\vspace {1mm}\bfseries \songti \zihao {-4}}{\contentslabel {25pt}}{\hspace *{-25pt}}{\titlerule *[5pt]{.}\contentspage }\relax 
+\ttl@change@v {section}{}{}{}\relax 
+\ttl@change@i {\@ne }{subsection}{50pt}{\vspace {1mm}\songti \zihao {-4}}{\contentslabel {30pt}}{\hspace *{-30pt}}{\titlerule *[5pt]{.}\contentspage }\relax 
+\ttl@change@v {subsection}{}{}{}\relax 
+\ttl@change@i {\@ne }{subsubsection}{80pt}{\vspace {1mm}\songti \zihao {-4}}{\contentslabel {40pt}}{\hspace *{-40pt}}{\titlerule *[5pt]{.}\contentspage }\relax 
+\ttl@change@v {subsubsection}{}{}{}\relax 
+\contentsline {section}{\numberline {1}\songti \zihao {-4}背景介绍}{1}%
+\contentsline {section}{\numberline {2}\songti \zihao {-4}相关工作}{2}%
+\contentsline {subsection}{\numberline {2.1}\songti \zihao {-4}基于循环神经网络的关系抽取}{2}%
+\contentsline {subsection}{\numberline {2.2}\songti \zihao {-4}基于图结构的关系抽取}{2}%
+\contentsline {subsection}{\numberline {2.3}\songti \zihao {-4}基于BERT模型的关系抽取}{3}%
+\contentsline {section}{\numberline {3}\songti \zihao {-4}模型介绍}{3}%
+\contentsline {subsection}{\numberline {3.1}\songti \zihao {-4}预备知识}{3}%
+\contentsline {subsubsection}{\numberline {3.1.1}\songti \zihao {-4}形式化表示}{3}%
+\contentsline {subsubsection}{\numberline {3.1.2}\songti \zihao {-4}多视图图模型}{3}%
+\contentsline {subsection}{\numberline {3.2}\songti \zihao {-4}BERT模块}{4}%
+\contentsline {subsection}{\numberline {3.3}\songti \zihao {-4}高斯图模块}{4}%
+\contentsline {subsection}{\numberline {3.4}\songti \zihao {-4}图卷积模块}{5}%
+\contentsline {section}{\numberline {4}\songti \zihao {-4}实验验证}{5}%
+\contentsline {subsection}{\numberline {4.1}\songti \zihao {-4}实验设计}{5}%
+\contentsline {subsection}{\numberline {4.2}\songti \zihao {-4}结果分析}{6}%
+\contentsline {section}{\numberline {5}\songti \zihao {-4}总结和展望}{7}%
+\contentsfinish 

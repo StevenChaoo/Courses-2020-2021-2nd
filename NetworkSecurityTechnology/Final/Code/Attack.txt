@@ -1,0 +1,4 @@
+$ python TreeParityMachineAttack.py
+
+  Eve's machine is only 63.15499 % synced with Alice's and Bob's
+  she did 118 updates.
