@@ -1,0 +1,304 @@
+\documentclass[12pt]{article}
+% ----------------------------------------Packages begin
+\usepackage[a4paper,left=25mm,right=25mm,top=25mm,bottom=25mm]{geometry}  
+\usepackage{ctex}        % 中文库
+\usepackage{titletoc}    % 目录库
+\usepackage{fancyhdr}    % 页眉库
+\usepackage{url}         % 链接库
+\usepackage{graphicx}    % 图片库
+\usepackage{float}       % 数学库
+\usepackage{amsmath}     % 复杂数学库
+\usepackage{amssymb}     % 花体字符库
+\usepackage{algorithm}   % 算法流程图库
+\usepackage{algorithmic} % 算法流程图库
+\usepackage{listings}    % 代码块库
+\usepackage{xcolor}      % 代码块颜色库
+\usepackage{multirow}    % 多行合并表格库
+\usepackage{array}       % 表格库
+\usepackage{booktabs}    % 三线表库
+% ----------------------------------------Packages end
+% ----------------------------------------En-Font Settings begin
+\setmainfont{Times New Roman}
+% ----------------------------------------En-Font Settings end
+% ----------------------------------------Code Block begin
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,          % 字符串风格
+    flexiblecolumns,                            % 别问为什么，加上这个
+    numbers             =   left,               % 行号的位置在左边
+    showspaces          =   false,              % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,% 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,                  % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,               % 显示边框
+}
+\lstdefinestyle{Python}{
+    language        =   Python,                 % 语言选Python
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,                   % 自动换行，建议不要写太长的行
+    columns         =   fixed,                  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+\lstdefinestyle{C++}{
+    language        =   C++,                    % 语言选C++
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,                   % 自动换行，建议不要写太长的行
+    columns         =   fixed,                  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+% ----------------------------------------Code Block end
+% ----------------------------------------Document begin
+\begin{document}
+% Linespread begin
+\linespread{1.5}
+% Linespread end
+% Head begin
+\pagestyle{fancy}
+\fancyhead[C]{密钥交换协议研究综述}
+\fancyhead[L, R]{}
+% Head end
+% Title begin
+\pagenumbering{Roman}
+\title{\songti \zihao{2} \textbf{密钥交换协议研究综述}}
+\author{\fangsong \zihao{-3}网络空间安全\quad 赵正一}
+\date{}
+\maketitle
+% Title end
+% Abstract begin
+\ctexset{abstractname = {\zihao{-4}摘要}}
+\begin{abstract}
+    \fangsong\zihao{-4}密钥交换协议是密码学研究的主要问题之一，通过某种机制通信双方建立联系，并沟通会话密钥。
+    \fangsong\zihao{-4}传统的密钥交换协议是基于代数数论建立的，其中比较经典是的由Diffie和Hellman提出的密钥交换协议。
+    \fangsong\zihao{-4}但是这一协议极容易收到中间人攻击，使得通信双方构建的通信通道不再安全。
+    \fangsong\zihao{-4}近些年来，神经密码学的提出给密钥交换协议提供了一种新的思路。
+    \fangsong\zihao{-4}通信双方构建相同的神经网络框架，通过相互学习机制更新彼此的权重，最终达成权重相等，完成会话密钥的分发。
+    \fangsong\zihao{-4}本文介绍了神经密码学在密钥交换协议中的应用，分析了神经密码学的安全性，并对未来工作的发展提出了建议。\\
+    \zihao{-4} \textbf{\heiti 关键字：}密钥交换协议；神经密码学；树奇偶校验机
+\end{abstract}
+\ctexset{abstractname = {\zihao{-4}Abstract}}
+\begin{abstract}
+    \zihao{-4}Key exchange protocol is one of the main issues in cryptography research.
+    \zihao{-4}Through a certain mechanism, communication parties establish contact and communicate session keys.
+    \zihao{-4}The traditional key exchange protocol is based on algebraic number theory, and the more classic one is the key exchange protocol proposed by Diffie and Hellman.
+    \zihao{-4}However, this protocol is extremely vulnerable to man-in-the-middle attacks, making the communication channel constructed by both parties no longer secure.
+    \zihao{-4}In recent years, the proposal of neural cryptography has provided a new way of thinking for key exchange protocols.
+    \zihao{-4}The communication parties construct the same neural network framework, update each other's weights through a mutual learning mechanism, and finally achieve equal weights and complete the distribution of the session key.
+    \zihao{-4}This paper introduces the application of neural cryptography in key exchange protocols, analyzes the security of neural cryptography, and makes suggestions for the development of future work.\\
+    \zihao{-4} \textbf{\heiti Keywords：}Key Exchange Protocol; Neural Cryptography; Tree Parity Machine
+\end{abstract}
+% Abstract end
+% Contents begin
+\newpage
+\tableofcontents
+\contentsmargin{0pt}
+\renewcommand\contentspage{\thecontentspage}
+\dottedcontents{section}[20pt]{\vspace{1mm}\bfseries\songti\zihao{-4}}{25pt}{5pt}
+\dottedcontents{subsection}[50pt]{\vspace{1mm}\songti\zihao{-4}}{30pt}{5pt}
+\dottedcontents{subsubsection}[80pt]{\vspace{1mm}\songti\zihao{-4}}{40pt}{5pt}
+% Contents end
+% Article begin
+\newpage
+\pagenumbering{arabic}
+\section{\songti\zihao{-4}密码基础知识简介}
+
+\songti\zihao{-4}密钥交换是现代密码学通信双方交换密钥以供后续某种加密算法的一个过程，构建一个安全的密钥交换协议对于密钥交换来说至关重要。
+\songti\zihao{-4}其中，最为经典的就是Diffie-Hellman密钥交换协议（DH密钥交换协议）。
+\songti\zihao{-4}它可以让双方在完全接受窃听者窃听的情况下，完成对会话密钥的共享，并且由于数学困难性，窃听者无法推断出共享会话密钥的详细内容。
+\songti\zihao{-4}通过这一密钥交换协议，通信双方可以构建一个安全的通信通道来加密通信内容。
+
+\songti\zihao{-4}假定Alice和Bob决定选用DH密钥交换协议进行密钥交换，他们将遵循以下算法：
+\begin{algorithm}[H]
+    \caption{DH密钥交换协议}
+    \label{alg:1}
+    \begin{algorithmic}[1]
+        \STATE Alice和Bob协商一个质数$p$和它的一个生成元（原根）$g$；
+        \STATE Alice选择一个秘密数字$a$，计算$A=g^a\mod{p}$并发送给Bob；
+        \STATE Alice选择一个秘密数字$b$，计算$B=g^b\mod{p}$并发送给Alice；
+        \STATE Alice计算$s_{Alice}=B^a\mod{p}$，Bob计算$s_{Bob}=A^b\mod{p}$
+    \end{algorithmic}
+\end{algorithm}
+
+\songti\zihao{-4}但它极容易受到中间人攻击。
+\songti\zihao{-4}窃听者Eve在信道的中央进行两次DH密钥交换，一次和Alice，另一次和Bob。
+\songti\zihao{-4}就可以成功的向Alice假装自己是Bob，并向Bob假装自己是Alice。
+\songti\zihao{-4}因此通常都需要一个能够验证通讯双方身份的机制来防止这类攻击。
+
+\section{\songti\zihao{-4}应用场景及研究现状}
+
+\songti\zihao{-4}与传统的基于数论的密码学不同，神经密码学是基于神经网络中的同步现象来构建密钥交换协议的。
+\songti\zihao{-4}此外，神经密学可以确保窃听者无法推断出密钥，即使窃听者知道算法的全部细节并且可以监听通信通道。
+\songti\zihao{-4}通过共享相同的神经网络结构（称为树奇偶校验机，TPM），参与密钥交换协议的两个实体可以通过同步共享神经网络来共享密钥。
+
+\songti\zihao{-4}通过近几年的发展，已经对神经密码学进行了广泛的研究。
+\songti\zihao{-4}Mislovaty团队证明了通过相互学习机制，可以实现两个树奇偶校验机的同步。
+\songti\zihao{-4}这一同步现象表明了树奇偶校验机的同步可以用作密钥交换协议。
+
+\songti\zihao{-4}从这一结果开始，有人后续分析了整个树奇偶校验机结构中的同步过程，并提出了两个主要的作用方式：相互吸引和相互排斥阶段。
+\songti\zihao{-4}通过这两个步骤的不断叠加，可以验证同步发生的确定性，并且证明了同步时间仅取决于设定的深度。
+
+\songti\zihao{-4}为了在实际中使用基于神经密码学的密钥交换协议，有人提出了扩展的各种概念。
+\songti\zihao{-4}最为经典的一个思路是为树奇偶校验机增加认证模块，通过秘密边界实现了带有身份认证的密钥交换协议，保证了树奇偶校验机不会收到中间人攻击。
+
+\section{\songti\zihao{-4}关键技术介绍}
+
+\songti\zihao{-4}树奇偶校验机（Tree Parity Machine，TPM）由$K$个隐藏单元组成，其输入向量是$X$，初始权重是$W$，输出单元是$\sigma_k$：
+\begin{align}
+    X\subset x_{ij}&\in\{-L,\cdots,0,\cdots,+L\} \notag\\
+    W\subset w_{ij}&\in\{-L,\cdots,0,\cdots,+L\} \notag
+\end{align}
+\begin{equation}
+    \sigma_k=\mathrm{sign}(\sum_{j=1}^Nw_{ij}x_{ij})
+\end{equation}
+\songti\zihao{-4}其中，$\mathrm{sign}(\cdot)$函数代表取自变量的数学符号，用来表示自变量的正负形，所以有：
+$$\mathrm{sign}(\cdot)\in\{-1,0,+1\}$$
+\songti\zihao{-4}TPM最终的输出为$\tau$：
+\begin{equation}
+    \tau^{A/B}=\prod_{k=1}^K\sigma_k^{A/B}
+\end{equation}
+
+\subsection{\songti\zihao{-4}TPM构建}
+
+\songti\zihao{-4}TPM的构建是一个动态的过程，通过多轮对比最终构建并同步好彼此的神经网络。其构建流程如下：
+\begin{algorithm}[H]
+    \caption{TPM双方同步按照以下流程执行}
+    \label{alg:2}
+    \begin{algorithmic}[1]
+        \STATE 随机初始化权重矩阵$w_{ij}^{A/B}$；
+        \WHILE {$w_{ij}^A\ne w_{ij}^B$}
+            \STATE 随机生成相同的输入矩阵$x_{ij}$；
+            \STATE 计算$\sigma_i^{A/B}$和$\tau^{A/B}$的结果；
+            \FORALL {$\tau^A$和$\tau^B$，比较他们的结果，并按照如下结果继续执行}
+                \STATE $\tau^A=\tau^B$：更新彼此的权重；
+                \STATE $\tau^A\ne\tau^B$：回到第三步；
+            \ENDFOR
+        \ENDWHILE
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{\songti\zihao{-4}TPM学习规则}
+
+\songti\zihao{-4}如2.2.1中的流程图所示，在进行到第6步的时候，需要按照特定的规则来更新神经网络的权重，通常我们会使用以下三种更新方法：
+\begin{enumerate}
+    \item \songti\zihao{-4}Hebbian算法
+          \begin{equation}
+              w_i^+=g(w_i+\sigma_ix_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+          \end{equation}
+    \item \songti\zihao{-4}Anti-Hebbian算法
+    \begin{equation}
+        w_i^+=g(w_i-\sigma_ix_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+    \end{equation}
+    \item \songti\zihao{-4}Random walk算法
+    \begin{equation}
+        w_i^+=g(w_i+x_i\theta(\sigma_i,\tau^A)\theta(\tau^A,\tau^B))
+    \end{equation}
+\end{enumerate}
+\songti\zihao{-4}其中，$\theta(x,y)$代表了$x$和$y$的相等关系，$g$函数表示某种运算法则使得运算后的结果仍然保持在原运算空间内：
+\begin{equation}
+    \theta(x,y)=\begin{cases}
+        1, & x=y\\
+        0, & x\ne y
+    \end{cases}
+\end{equation}
+
+\subsection{\songti\zihao{-4}收敛性分析}
+
+\songti\zihao{-4}通过上述公式可以得到，如果双方的最终输出$\tau^A=\tau^B$，而且对于每一个神经网络来说，每个$\tau=\sigma_k$的神经元都有且只可能有以下三种运动情况：
+\paragraph{\songti\zihao{-4}共同运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是相等的，那么Alice和Bob双方的神经网络对应的神经单元都会发生权重更新，而且由于每一轮的输入矩阵是相同的，在相同的运算法则下，他们的运动方向一定是同向的。
+\begin{equation}
+    \sigma_k^A=\sigma_k^B=\tau^{A/B}
+\end{equation}
+\paragraph{\songti\zihao{-4}某一方单独运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是不等的，那么Alice和Bob双方的神经网络对应的神经单元只有一方会发生权重更新。
+\begin{equation}
+    \sigma_k^A\ne\sigma_k^B
+\end{equation}
+\paragraph{\songti\zihao{-4}不运动}
+\songti\zihao{-4}如果同一位置上隐藏层的输出是相等的但是都不等于最终的数据结果，那么Alice和Bob双方的神经网络对应的神经单元都不会发生权重更新，他们不做运动，或者也可以近似看作他们的运动方向是同向的。
+\begin{equation}
+    \sigma_k^A=\sigma_k^B\ne\tau^{A/B}
+\end{equation}
+
+\songti\zihao{-4}在此基础上，我们可以定义两个神经单元的距离。
+\songti\zihao{-4}本文把同一位置上不同神经网络的隐藏单元看作是在同一条直线上运动的两个动点。
+\songti\zihao{-4}由上面的运动情况分析有，他们要么同向运动，要么一方不运动，另一方运动。
+\songti\zihao{-4}我们定义两点之间的距离为：
+\begin{equation}
+    \rho_k=\frac{w_k^A\cdot w_k^B}{\sqrt{w_k^A\cdot w_k^A}\cdot\sqrt{w_k^B\cdot w_k^B}}
+\end{equation}
+\songti\zihao{-4}其中，$0<\rho_k<1$。当$\rho_k=0$的时候，我们认为动点处于开始位置；当$\rho_k=1$，我们认为同步结束，双方的权重矩阵相等。
+
+\songti\zihao{-4}因为神经网络的隐藏单元的深度L是一定的，所以对于上述我们简化撑的直线上两动点运动这个模型来说，动点的运动是有边界的。
+\songti\zihao{-4}进入边界后，如果继续同向运动，动点被边界吸收，如果与边界反向运动，动点被边界反射。
+
+\begin{figure}[H]
+    \label{fig:pic1}
+    \centering
+    \includegraphics[scale=0.6,clip]{../Pics/1.png}
+    \caption{\fangsong 动点运动近似模拟模型}
+\end{figure}
+
+\songti\zihao{-4}所以两动点的运动长度可以近似为$m=2L+1$。故两动点一定会相遇，而且相遇的可能仅与时间相关。
+\songti\zihao{-4}所以通信双方使用相同规模的神经网络，在一定时间内的相互学习后，权重矩阵一定会相等。
+
+\subsection{安全性分析}
+
+\songti\zihao{-4}安全性分析的条件是，在每一次由Eve发起的攻击中，都认为Eve可以在Alice和Bob之间窃听消息，但没有机会更改他们。
+\songti\zihao{-4}在这个条件下，我们讨论暴力破解和模拟攻击。
+
+\subsubsection{暴力破解}
+
+\songti\zihao{-4}对于一个输入矩阵规模为$K\times N$的输入，隐藏层的权重矩阵$W$的规模为$K$，权重矩阵和输入矩阵的深度都是$L$。
+\songti\zihao{-4}在这样的条件下， 一共有$(2L+1)^{KN}$种会话密钥的可能性。
+\songti\zihao{-4}假设当前神经网络仅仅是一个$K=3$，$N=100$，$L=3$的模型，它的计算规模也已经达到了$3\times 10^{253}$。
+\songti\zihao{-4}这对于目前的计算能力来说，暴力破解是不可能的。
+
+\subsubsection{模拟攻击}
+
+\songti\zihao{-4}模拟攻击建立在窃听者Eve建立了一个与Alice和Bob相同的神经网络，并且在Alice与Bob的通信交流过程中全程窃听并记录下了内容。
+\songti\zihao{-4}试图通过与Alice或Bob一起更新权重以达到三者权重相同的目的。
+\songti\zihao{-4}下面我们分析这种攻击的可能性。
+
+\songti\zihao{-4}在这样的情况下，攻击者Eve一共有三种可能的选择：
+\begin{enumerate}
+    \item $\tau^A\ne\tau^B$：\songti\zihao{-4}三方均不更新权重。
+    \item $\tau^A=\tau^B=\tau^E$：\songti\zihao{-4}Alice和Bob双方因为具有相同的更新条件，所以采用约定好的更新规则更新权重。Eve因为自身的结果和Alice以及Bob相等，所以Eve也根据窃听到的更新权重规则更新自己的权重。
+    \item $\tau^A=\tau^B\ne\tau^E$：\songti\zihao{-4}Alice和Bob双方因为具有相同的更新条件，所以采用约定好的更新规则更新权重。但是Eve的结果并不相同，所以Eve不更新自己的权重。
+\end{enumerate}
+
+\songti\zihao{-4}事实证明，由于概率存在，所以Eve的更新效率要远低于Alice和Bob双方更新权重的效率。
+\songti\zihao{-4}所以Eve概率上永远也无法先于Alice或Bob同步权重。
+
+\section{\songti\zihao{-4}下一步工作}
+
+\songti\zihao{-4}神经密码学现在仍然很难应用到工业设计中，因为它本身原理不是基于数学困难性而是基于概率发生的，所以无法保证一定不能通过模拟攻击破解。
+\songti\zihao{-4}同时，由于神经密码学在结果交流中仍然要反复利用网络传播，所以无法保证通信效率。
+\songti\zihao{-4}在未来，可以通过扩展树奇偶校验机，在保持效率的同时提高结构的安全性。
+
+% Article end
+% Conferences begin
+\clearpage
+\begin{thebibliography}{99}
+    \bibitem{1}Allam A M, Abbas H M, El-Kharashi M W. Authenticated key exchange protocol using neural cryptography with secret boundaries[C]//The 2013 International Joint Conference on Neural Networks (IJCNN). IEEE, 2013: 1-8.
+    \bibitem{2}Singh A, Nandal A. Neural cryptography for secret key exchange and encryption with AES[J]. PDF). International Journal of Advanced Research in Computer Science and Software Engineering, 2013, 3(5): 376-381.
+    \bibitem{3}Kinzel W, Kanter I. Neural cryptography[C]//Proceedings of the 9th International Conference on Neural Information Processing, 2002. ICONIP'02. IEEE, 2002, 3: 1351-1354.
+    \bibitem{4}Modesitt D, Henry T, Coden J, et al. Neural Cryptography: From Symmetric Encryption to Adversarial Steganography[J]. Avilable at https://courses. csail. mit. edu/6.857/2018/project/Modesitt-Henry-Coden-Lathe-NeuralCryptography. pdf.
+    \bibitem{5}Abadi M, Andersen D G. Learning to protect communications with adversarial neural cryptography[J]. arXiv preprint arXiv:1610.06918, 2016.
+    \bibitem{6}Jeong S, Park C, Hong D, et al. Neural Cryptography Based on Generalized Tree Parity Machine for Real-Life Systems[J]. Security and Communication Networks, 2021, 2021.
+\end{thebibliography}
+% Conferences end
+
+\end{document}
+% ----------------------------------------Document end

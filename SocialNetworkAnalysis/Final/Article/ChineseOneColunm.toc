@@ -8,16 +8,16 @@
 \contentsline {section}{\numberline {2}\songti \zihao {-4}相关工作}{2}%
 \contentsline {subsection}{\numberline {2.1}\songti \zihao {-4}基于循环神经网络的关系抽取}{2}%
 \contentsline {subsection}{\numberline {2.2}\songti \zihao {-4}基于图结构的关系抽取}{2}%
-\contentsline {subsection}{\numberline {2.3}\songti \zihao {-4}基于BERT模型的关系抽取}{3}%
+\contentsline {subsection}{\numberline {2.3}\songti \zihao {-4}基于BERT模型的关系抽取}{2}%
 \contentsline {section}{\numberline {3}\songti \zihao {-4}模型介绍}{3}%
 \contentsline {subsection}{\numberline {3.1}\songti \zihao {-4}预备知识}{3}%
 \contentsline {subsubsection}{\numberline {3.1.1}\songti \zihao {-4}形式化表示}{3}%
 \contentsline {subsubsection}{\numberline {3.1.2}\songti \zihao {-4}多视图图模型}{3}%
+\contentsline {subsubsection}{\numberline {3.1.3}\songti \zihao {-4}信号与系统}{3}%
 \contentsline {subsection}{\numberline {3.2}\songti \zihao {-4}BERT模块}{4}%
-\contentsline {subsection}{\numberline {3.3}\songti \zihao {-4}高斯图模块}{4}%
-\contentsline {subsection}{\numberline {3.4}\songti \zihao {-4}图卷积模块}{5}%
-\contentsline {section}{\numberline {4}\songti \zihao {-4}实验验证}{5}%
-\contentsline {subsection}{\numberline {4.1}\songti \zihao {-4}实验设计}{5}%
-\contentsline {subsection}{\numberline {4.2}\songti \zihao {-4}结果分析}{6}%
+\contentsline {subsection}{\numberline {3.3}\songti \zihao {-4}图卷积模块}{4}%
+\contentsline {section}{\numberline {4}\songti \zihao {-4}实验验证}{6}%
+\contentsline {subsection}{\numberline {4.1}\songti \zihao {-4}实验设计}{6}%
+\contentsline {subsection}{\numberline {4.2}\songti \zihao {-4}结果分析}{7}%
 \contentsline {section}{\numberline {5}\songti \zihao {-4}总结和展望}{7}%
 \contentsfinish 

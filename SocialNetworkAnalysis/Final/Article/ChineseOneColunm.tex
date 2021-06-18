@@ -83,10 +83,10 @@
     \zihao{-4}\fangsong 关系的主客体双方必须为出现在同一空间内的命名实体，这一空间可以是句子级、段落级甚至是文档级。
     \zihao{-4}\fangsong 当给定的文本很长的时候，从这一文本中提取出特定的有关联的主客体以及确定他们之间的关系就成为了这一任务的一大难点。
     \zihao{-4}\fangsong 近些年来，关系抽取工作主要聚焦于使用预训练的语言模型如BERT模型。
-    \zihao{-4}\fangsong 这样的工作往往是序列的标注工作，讲文本当作长序列，顺序学习提取出命名实体和他们之间的关系。
-    \zihao{-4}\fangsong 本文在图论的基础上，提出了一个重构的多视图图模型用来捕捉命名实体之间的关系。
-    \zihao{-4}\fangsong 之后通过调整图结构来选择出对于关系抽取工作来说最重要的字词，最后通过在序列上使用BERT模型，在结构上使用基于图论的图模型来共同抽取关系。
-    \zihao{-4}\fangsong 通过实验验证，本文提出的方法在对话级别的关系抽取中有比较好的效果。\\
+    \zihao{-4}\fangsong 这样的工作往往是序列的标注工作，将文本当作长序列，顺序学习提取出命名实体和他们之间的关系。
+    \zihao{-4}\fangsong 本文通过介绍由图论启发的关系抽取模型，来探索使用图结构在关系抽取工作中的作用。
+    \zihao{-4}\fangsong 对异构图进行编码，可以将实体之间的关系和实体本身同时进行特征抽取，避免了错误传播。
+    \zihao{-4}\fangsong 通过实验验证，基于图论的关系抽取模型有较好的效果。\\
     \zihao{-4} \textbf{\heiti 关键字：}关系抽取；图论；对话级；BERT模型
 \end{abstract}
 \ctexset{abstractname = {\zihao{-4}Abstract}}
@@ -95,11 +95,10 @@
     \zihao{-4} The subject and object of the relationship must be named entities that appear in the same space, which can be sentence-level, paragraph-level, or even document-level.
     \zihao{-4} When the given text is very long, extracting specific related subjects and objects from this text and determining the relationship between them becomes a major difficulty in this task.
     \zihao{-4} In recent years, relation extraction work has mainly focused on the use of pre-trained language models such as the BERT model.
-    \zihao{-4} Such work is often sequence labeling work.
-    \zihao{-4} The text is treated as a long sequence, and sequential learning is used to extract named entities and their relationships.
-    \zihao{-4} Based on graph theory, this paper proposes a reconstructed multi-view graph model to capture the relationship between named entities.
-    \zihao{-4} Afterwards, the graph structure is adjusted to select the most important words for the relationship extraction work, and finally the relationship is jointly extracted by using the BERT model in the sequence and the graph model based on graph theory in the structure.
-    \zihao{-4} Through experimental verification, the method proposed in this paper has a relatively good effect in the extraction of relations at the dialogue level.\\
+    \zihao{-4} Such work is often sequence labeling work, which treats the text as a long sequence, and sequentially learns to extract the named entities and the relationship between them.
+    \zihao{-4} This paper introduces the relation extraction model inspired by graph theory to explore the role of graph structure in relation extraction work.
+    \zihao{-4} By encoding heterogeneous graphs, the relationship between entities and the entities themselves can be simultaneously feature extracted, avoiding error propagation.
+    \zihao{-4} It is verified by experiments that the relationship extraction model based on graph theory has a good effect.\\
     \zihao{-4} \textbf{\heiti Keywords：}Relation Extraction; Graph Theory; Dialog-Level; BERT-based model
 \end{abstract}
 % Abstract end
@@ -154,20 +153,12 @@
 \songti\zihao{-4}随着技术的发展，图结构的神经网络模型因为它优异的性能而被广泛使用。
 \songti\zihao{-4}通常，图中的每一个节点都表示给定文本中的一个命名实体。
 \songti\zihao{-4}边的构造方法有很多，通常研究依赖于外部的句法解析树，将文本序列转换成从属的树结构来初始化图结构。
-\songti\zihao{-4}也正是因为这个原因，由于句法书的错误提取，可能会导致错误传播的问题发生。
+\songti\zihao{-4}也正是因为这个原因，由于句法树的错误提取，可能会导致错误传播的问题发生。
 
-\songti\zihao{-4}本文提出了一个基于图论的关系抽取模型用来抽取对话级别的实体关系。
-\songti\zihao{-4}在没有外部知识的情况下，构造一个多视图的图结构模型高度依赖人工提取的特征的有效性。
-\songti\zihao{-4}这个图结构以文本中所有的命名实体为节点，基于BERT模型求出节点的表征向量，再根据某种规则对这些向量进行有向连接形成边。
-\songti\zihao{-4}最后通过图卷积和图池化来逐一剪枝，最后确定本文中的关系。
-
-\songti\zihao{-4}在学习潜在图的时候，两个命名实体之间的边往往记录了他们从文本序列中抽取出来时涵盖着的关系。
-\songti\zihao{-4}这份关系往往不是对称的，所以我们需要生成有向图来初始化我们的图结构。
-\songti\zihao{-4}具体来说，本文使用了高斯图生成器（GGG）\cite{Tarjan-1976}\cite{Bagdanov-2008}来初始化多视图图结构的边。
-\songti\zihao{-4}然后通过测量不同节点的高斯分布之间的Kullback-Leibler（KL）散度\cite{Jognson-2001}来计算边节点的表征向量。
-\songti\zihao{-4}由于KL散度的不对称性，GGG生成的图天然是有向图。
-\songti\zihao{-4}在序列较长的情况下，初始化后的潜在图往往非常大，所以需要通过迭代图卷积和图池化来剪枝缩小规模。
-\songti\zihao{-4}从而得到一个具有自适应能力的任务特定的图结构来进行本文关系抽取工作。
+\songti\zihao{-4}本文介绍了一个基于图论的关系抽取模型用来抽取实体之间的关系。
+\songti\zihao{-4}在没有外部知识的情况下，构造一个傅立叶域的图结构，在通过傅立叶域的变换操作进行神经网络学习，最后将产出的结果再通过一个反向的傅立叶变换函数转换到空间域中。
+\songti\zihao{-4}其中，图在傅立叶域中的卷积操作的结果在空间域中也得以保留。
+\songti\zihao{-4}通过实验验证，基于图卷积神经网络的模型有着不错的效果。
 
 \section{\songti\zihao{-4}相关工作}
 
@@ -191,9 +182,6 @@
 \songti\zihao{-4}为了消除这一问题的影响，有人提出了隐性图学习模型\cite{Christopoulou-2018}\cite{Nan-2020}。
 \songti\zihao{-4}使用一个端到端的学习方式来学习图结构中的隐藏信息，这样的学习方式不再需要外部的句法树作为辅助工具。
 \songti\zihao{-4}除此之外，有人还尝试把这一结构看作是一整个变量\cite{Guo-2020}，通过对这一变量的学习调整来获取图的特征表示。
-
-\songti\zihao{-4}本文基于这一思想，尝试生成多视图的图结构，用来模拟不同节点之间所有的结构可能。
-\songti\zihao{-4}除此之外，本文还尝试提取出每一个图中的重要信息，来验证图结构的合理性。
 
 \subsection{\songti\zihao{-4}基于BERT模型的关系抽取}
 
@@ -225,6 +213,36 @@
 \songti\zihao{-4}图中的每个节点都对应着一个字/词，这些字词有多种组合的方式，不同的组合方式构建成为不同的视图。
 \songti\zihao{-4}通过对不同的视图进行分析编码，就可以最大程度上还原原文本中的语义关系。
 
+\subsubsection{\songti\zihao{-4}信号与系统}
+
+\songti\zihao{-4}信号可以看作是在$n$维空间里的一个向量。
+\songti\zihao{-4}这个空间中的向量可以看作是由一组基向量通过合成产生的，也可以说是他们的线性组合：
+\begin{equation}
+    \vec{A}=\sum_{k=1}^Na_k\hat{v}_k
+\end{equation}
+\songti\zihao{-4}当我们想要知道这个线性组合里面每一个不同的元素的$a_k$大小是多少的时候，就要用到信号的分析：
+\begin{equation}
+    a_j=\vec{A}\cdot\hat{v}_j
+\end{equation}
+
+\songti\zihao{-4}现在我们假定我们的基向量是正定的，常见的基向量的组合就是由$\sin$和$\cos$函数组成的基向量，这一组基向量常用来进行傅立叶变换。
+\songti\zihao{-4}现在我们对一个周期性的信号用傅立叶展开：
+\begin{equation}
+    x(t)=\sum_{k=-\infty}^\infty a_ke^{jk\omega_0t}=\sum_{k=-\infty}^\infty a_k\phi_k(t)
+\end{equation}
+\songti\zihao{-4}这个函数的基向量就是由$e^{jk\omega_0t}$组成的，他在方向上的长度由$a_k$决定。通过：
+\begin{align}
+    x(t)&=a_0+2\sum_{k=1}^\infty A_k\cos(k\omega_0t+\theta_k), a_k=A_ke^{j^\theta k} \notag\\
+    &=a_0+2\sum_{k=1}^\infty\left[B_k\cos k\omega_0t-C_k\sin k\omega_0t\right], a_k=B_k+jC_k
+\end{align}
+\songti\zihao{-4}可以求得$a_k$的大小。
+
+\songti\zihao{-4}同样，不同的基向量可以组成同一个信号，也就是说，同一个函数可以通过不同的方式展开。如果要使用傅立叶变换来展开的话，那么要遵循以下公式：
+\begin{equation}
+    X(j\omega)=\int_{-\infty}^\infty x(t)e^{-j\omega t}dt
+\end{equation}
+\songti\zihao{-4}其中，$e^{-j\omega t}$是它的基向量，整体可以看作是我们在做信号分析。
+
 \subsection{\songti\zihao{-4}BERT模块}
 
 \songti\zihao{-4}本文使用BERT模型作为特征的编码器，用BERT的编码向量来进行后续的抽取工作。
@@ -239,37 +257,39 @@
 \songti\zihao{-4}除此之外，本文将剩下的隐层向量送入图结构中，通过图节点和边的关系来建立更抽象层次的特征表示。
 \songti\zihao{-4}最后，从图中产生的结果会被送入SoftMax层和$h_0$一起进行分类。
 
-\subsection{\songti\zihao{-4}高斯图模块}
-
-\songti\zihao{-4}从BERT模型中产生的输出表示会被分为两部分，其中$h_0$作为一句话的句子级特征，代表了这句话归属于什么样的任务，这是第一部分。
-\songti\zihao{-4}另一部分是剩下的隐层表示$H^{'}=\{h_1,h_2,\cdots,h_T,h_{T+1}\}$。在图结构部分，本文只用第二部分生成多视图的图模型。
-
-\songti\zihao{-4}首先，将最初始的节点向量表示为$V^0=\{v_1^0,v_2^0,\cdots,v_{T+1}^0\}$，每一个节点都对应着原文本序列中的一个字/词。
-\songti\zihao{-4}之后，使用高斯图生成器对多视图的图模型在给定节点集合的情况下进行边初始化。
-\songti\zihao{-4}对于同一批节点来说，高斯分布的参数$\mu$和$\sigma$分别表示为：
-\begin{align}
-    \{\mu_i^1,\mu_i^2,\cdots,\mu_i^N\}&=g_{\theta}(v_i^0)\\
-    \{\sigma_i^1,\sigma_i^2,\cdots,\sigma_i^N\}&=\phi(g_{\theta}^{'}(v_i^0))
-\end{align}
-\songti\zihao{-4}其中，$g_{\theta}$和$g_{\theta}^{'}$是两个神经网络中需要训练的参数，$\phi$是一个激活函数，激活函数是用来将神经网络中线性的变换转换为非线性的一种特殊机制。
-\songti\zihao{-4}$N$代表了多视图图模型中视图的数目。
-\songti\zihao{-4}本文将激活函数$\phi$设置为SoftPlus函数，因为高斯分布的标准差的值域是$(0,\infty)$。
-\songti\zihao{-4}因此，我们可以得到对于第$n$个视图的一系列高斯分布$\{\mathcal{N}_1^n,\mathcal{N}_2^n,\cdots,\mathcal{N}_{T+1}^n,\}$。
-\songti\zihao{-4}每一个高斯分布都是期望为$\mu_i^n$，方差为${\sigma_i^n}^2$的分布函数，表示为$\mathcal{N}_i^n(\mu_i^n,{\sigma_i^n}^2)$。
-
-\songti\zihao{-4}多视图图模型是用来捕捉全部的关系可能的，所以本文在每一个字/词之间都使用了信息传播方法。
-\songti\zihao{-4}本文使用了KL散度来计算每两个字/词之间的高斯分布差异度，根据这个差异度来生成边的权重关系。
-\songti\zihao{-4}对于第$i^{th}$和第$j^{th}$个节点来说，在第$n^{th}$个视图中，KL散度的计算公式如下：
-\begin{equation}
-    e_{ij}^n=\mathrm{KL}(\mathcal{N}_i^n(\mu_i^n,{\sigma_i^n}^2)||\mathcal{N}_j^n(\mu_j^n,{\sigma_j^n}^2))
-\end{equation}
-
-\songti\zihao{-4}在计算完每个视图的每条边之后，我们就得到了一组临边矩阵$\{A^1,A^2,\cdots,A^N\}$，每一个临边矩阵都代表了一个视图。
-\songti\zihao{-4}因此，通过高斯图模块生成的图可以表示为$G=(V^0,A^1,A^2,\cdots,A^N)$。
-
 \subsection{\songti\zihao{-4}图卷积模块}
 
-\songti\zihao{-4}本文在前人工作的基础上\cite{Guo-2019}\cite{Guo1-2019}，探索了多视图训练工作的方法。
+\songti\zihao{-4}现在给定一个由$V$和$E$来表示的图$G=(V,E), N=|V|$，并给出它的邻接矩阵$A\in\mathbb{R}^{N\times N}$，度矩阵$D\in\mathbb{R}^{N\times N}$，以及一个纯量向量$f:V\to\mathbb{R}^N$。
+\songti\zihao{-4}通过运算，我们可以得到这个图结构的拉普拉斯矩阵$L=D-A$，对于无向图来说，这个拉普拉斯矩阵是一个对称矩阵。
+\songti\zihao{-4}再将这个拉普拉斯矩阵通过对角化处理$L=U\Lambda U^{\intercal}$得到它的特征向量矩阵$U$和特征值矩阵$\Lambda$。
+\songti\zihao{-4}其中，$\Lambda=\mathrm{diag}(\lambda_0,\cdots,\lambda_{N-1})\in\mathbb{R}^{N\times N}$。
+\songti\zihao{-4}特别的是，拉普拉斯矩阵中特征向量之间是正交的。
+\songti\zihao{-4}在图卷积模块这里，我们把特征值称作是“频率”。
+
+\songti\zihao{-4}通过这一转换，我们就可以把空间域的向量，通过傅立叶变换转换到谱空间内，也叫傅立叶域内。
+\songti\zihao{-4}通过谱空间的运算法则，比如增加自环、有向图变无向图等方式编码，最终输入到神经网络中进行特征学习。
+\songti\zihao{-4}运用图论，传统的神经网络模型也可以对输入之间的邻居关系进行学习，我们设置：
+\begin{align}
+    f^{\intercal}Lf&=\sum_{v_i\in V}f(v_i)\sum_{v_j\in V}w_{i,j}(f(v_i)-f(v_j))\notag\\
+    &=\sum_{v_i\in V}\sum_{v_j\in V}w_{i,j}(f^2(v_i)-f(v_i)f(v_j))\notag\\
+    &=\frac{1}{2}\sum_{v_i\in V}\sum_{v_j\in V}w_{i,j}(f^2(v_i)-f(v_i)f(v_j)+f^2(j)-f(v_j)f(v_i))\notag\\
+    &=\frac{1}{2}\sum_{v_i\in V}\sum_{v_j\in V}w_{i,j}(f(v_i)-f(v_j))^2
+\end{align}
+\songti\zihao{-4}代表两个节点之间的纯量向量差异值，表示相邻节点的差别关系。
+
+\songti\zihao{-4}图卷积神经网络是在ChebNet的基础上发展来的，通过简化ChebNet的运算法则来达成一个更快的训练过程。
+\songti\zihao{-4}图卷积神经网络的目标函数为：
+\begin{align}
+    y=g_{\theta^{'}}(L)x&=\sum_{k=0}^K\theta_k^{'}T_k(\tilde{L})x, K=1\notag\\
+    y=g_{\theta^{'}}(L)x&=\theta_0^{'}x+\theta_1^{'}\tilde{L}x\notag\\
+    &=\theta_0^{'}x+\theta_1^{'}(\frac{2L}{\lambda_{max}}-I)x\notag\\
+    &=\theta_0^{'}x+\theta_1^{'}(L-I)x\notag\\
+    &=\theta_0^{'}x-theta_1^{'}(D^{-\frac{1}{2}}AD^{-\frac{1}{2}})\notag\\
+    &=\theta(I+D^{-\frac{1}{2}}AD^{-\frac{1}{2}})x\notag\\
+    &=\sigma(\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}H^{(l)W^{(l)}})
+\end{align}
+
+\songti\zihao{-4}之后，又有工作\cite{Guo-2019}\cite{Guo1-2019}探索了多视图训练的方法。
 \songti\zihao{-4}使用稠密的图卷积神经网络来捕捉真实的图上结构信息。
 \songti\zihao{-4}通过稠密的全连接层，我们可以训练出一个更深的模型来捕捉局部和全局的信息。
 \songti\zihao{-4}多视图的图卷积网络可以写作：
@@ -280,15 +300,16 @@
 \songti\zihao{-4}$\rho$是一个激活函数，$k_j^{(l)}$是全连接过程的初始节点表示向量，这个向量包含了之前序列所有节点的信息。
 \songti\zihao{-4}第一次图卷积工作输出的结果为$V^1=\{v_1^1,v_2^1,\cdots,v_{T+1}^1\}=\{k_1^(l),k_2^(l),\cdots,k_{T+1}^(l)\}$。
 
-\songti\zihao{-4}卷积层和池化层在神经网络中往往成对出现并不断循环，本文选用的是SAGPool池化模型\cite{Lee-2019}，计算公式如下：
+\songti\zihao{-4}卷积层和池化层在神经网络中往往成对出现并不断循环，常用的是SAGPool池化模型\cite{Lee-2019}，计算公式如下：
 \begin{equation}
     s_{n_i}=\alpha\left(\sum_{j=1}^TA_{ij}^nW_{pool}v_j+b_{pool}\right)
 \end{equation}
+之后通过迭代更新就可以用图结构实现关系的抽取。
 
 \section{\songti\zihao{-4}实验验证}
 
-\songti\zihao{-4}本文提出的基于图论的关系抽取模型可以应用于句子级和对话级的关系抽取任务。
-\songti\zihao{-4}由于选用数据集的数据格式以及适用的基线模型是不同的，本文进行了两组实验来对模型的有效性进行了验证。
+\songti\zihao{-4}本文提介绍的基于图论的关系抽取模型可以应用于句子级和对话级的关系抽取任务。
+\songti\zihao{-4}由于选用数据集的数据格式以及适用的基线模型是不同的，本文通过分析两组实验验证了模型的有效性。
 \songti\zihao{-4}以及对模型可能存在的修改空间进行了描述，以应对不同的任务类别。
 
 \subsection{\songti\zihao{-4}实验设计}
@@ -300,24 +321,24 @@
 \songti\zihao{-4}本文根据最近大火的BERT模型\cite{Devlin-2018}，对本文提出的基于图论的关系抽取模型进行了改进。
 \songti\zihao{-4}BERT是一个预训练的语言模型，能够感知对话中说话人的信息，并可以根据将说话人的信息融入到对话本身来提取特征。
 \songti\zihao{-4}在对话级的关系抽取任务上有不错的表现。
-\songti\zihao{-4}文本同时还针对CNN模型，基于LSTM的RNN模型分别进行了实验，以保证实验的完整性。
+\songti\zihao{-4}文本同时还同时分析了CNN模型，基于LSTM的RNN模型，以保证实验的完整性。
 
-\songti\zihao{-4}在试验参数的设置上，本文采用了相同的输入数据。
+\songti\zihao{-4}在试验参数的设置上，采用了相同的输入数据。
 \songti\zihao{-4}值得一提的是，给定的$X$，$X_s$和$X_o$根据BERT的成文规则与$CLS$拼接在一起，并在每句话的结尾添加$SEP$标签。
 \songti\zihao{-4}最终我们得到的序列为：$$[CLS]-X-[SEP]-X_s-[SEP]-X_o-[SEP]$$
 \songti\zihao{-4}抽取对话的触发词不作特别标注，与原序列一起进行训练。
 
-\songti\zihao{-4}除此之外，优化器我们选择了Adam\cite{Kingma-2015}。
-\songti\zihao{-4}学习率设置为$3e-5$，池化率设置为$0.7$.我们使用了常见的SAGPool池化模型\cite{Lee-2019}作为本文的池化层。
-\songti\zihao{-4}由于池化层的不断累加，最终图中的节点数量很少，采用传统的$F1$值作为评价指标不具备普适性，所以我们采用了$F1c$\cite{Yu-2020}指标作为模型试验的评价指标。
-\songti\zihao{-4}输入上本文每批次仅将一组对话作为输入，而不是全部对话记录。
+\songti\zihao{-4}除此之外，优化器选择了Adam\cite{Kingma-2015}。
+\songti\zihao{-4}学习率设置为$3e-5$，池化率设置为$0.7$。使用了常见的SAGPool池化模型\cite{Lee-2019}作为池化层。
+\songti\zihao{-4}由于池化层的不断累加，最终图中的节点数量很少，采用传统的$F1$值作为评价指标不具备普适性，所以常采用$F1c$\cite{Yu-2020}指标作为模型试验的评价指标。
+\songti\zihao{-4}输入上，每批次仅将一组对话作为输入，而不是全部对话记录。
 
 \subsection{\songti\zihao{-4}结果分析}
 \songti\zihao{-4}表2展示了在DialogRE数据集上实验的结果。
 \songti\zihao{-4}通过这个结果我们可以看出，基于BERT模型的方法比基于CNN模型的和基于LSTM的RNN模型的效果有明显的提高。
 \songti\zihao{-4}融入了对话人身份信息的BERT模型比标准的BERT模型效果更好。
-\songti\zihao{-4}基于这个想法，本文提出的基于图论的关系抽取模型是在融入了对话人身份信息的BERT模型的基础上进行的扩展。
-\songti\zihao{-4}实验结果表明，本文提出的方法比BERTs的效果，在F1值上高5.9\%，在F1c值上高1.7\%。
+\songti\zihao{-4}基于这个想法，本文介绍的基于图论的关系抽取模型是在融入了对话人身份信息的BERT模型的基础上进行的扩展。
+\songti\zihao{-4}实验结果表明，本文介绍的方法比BERTs的效果，在F1值上高5.9\%，在F1c值上高1.7\%。
 
 \renewcommand\arraystretch{0.8}
 \begin{table}[H]
@@ -330,42 +351,19 @@
         LSTM-RNN\cite{Hochreiter-1997} & 49.7\% & 46.2\%\\
         BERT\cite{Devlin-2018} & 66.8\% & 60.4\%\\
         BERTs\cite{Yu-2020} & 73.0\% & 65.8\%\\
-        Our Model & \textbf{78.9}\% & \textbf{67.5}\%\\
+        Graph-based & \textbf{78.9}\% & \textbf{67.5}\%\\
 		\bottomrule[2pt]
 	\end{tabular}
     \caption{\fangsong 针对DialogRE数据集的对比实验}
 \end{table}
 
-\renewcommand\arraystretch{0.8}
-\begin{table}[H]
-	\centering
-	\begin{tabular}{clll}
-		\toprule[2pt]
-		\textbf{S1}: & \multicolumn{3}{l}{Hey, you guys! Look \textbf{what} I found! Look at this! \textbf{That's my} Mom's writing!}\\
-        & \multicolumn{3}{l}{Look.}\\
-        \textbf{S2}: & \multicolumn{3}{l}{Me \textbf{and Frank} and Phoebe, Graduation 1965.}\\
-        \textbf{S1}: & \multicolumn{3}{l}{Y'know what that \textbf{means}?}\\
-        \textbf{S2}: & \multicolumn{3}{l}{That you're actually 50?}\\
-        \textbf{S1}: & \multicolumn{3}{l}{No-no, that's \textbf{not}, that's not me Phoebe, \textbf{that's} her pal Phoebe. According to}\\
-        & \multicolumn{3}{l}{\textbf{her high school} yearbook, they were like B.F.F. Best \textbf{Friends} Forever.}\\
-		\midrule[1pt]
-		& \textbf{Argument Pair} & \textbf{Trigger} & \textbf{Relation type}\\
-        \textbf{R1} & (S1, Frank) & high school & per:alumni\\
-		\bottomrule[2pt]
-	\end{tabular}
-    \caption{\fangsong DialogRE测试数据集示例}
-\end{table}
-
-\songti\zihao{-4}同时，根据表3我们可以发现，通过本文提出的模型，在DialogRE数据集上选取的这一对话，我们可以选择出对关系抽取有用的触发词，如：high school。
-\songti\zihao{-4}通过逐步减少对关系抽取无用的实体，使得模型在提取关系时有了更高的准确率。
-
 \section{\songti\zihao{-4}总结和展望}
 
-\songti\zihao{-4}本文提出了一个基于图论的关系抽取模型用来抽取对话级别的实体关系。
+\songti\zihao{-4}本文介绍了一个基于图论的关系抽取模型用来抽取对话级别的实体关系。
 \songti\zihao{-4}模型很好地解决了在长序列文本中难以抽取出特定的实体以及实体之间的关系的问题。
 \songti\zihao{-4}在对话级别的关系抽取工作中，通过实验验证，能够达到不错的实验效果。
-\songti\zihao{-4}特别的，本文提出的模型包含有预训练语言模块——BERT模块、图结构模块——高斯图模块和图卷积模块。
-\songti\zihao{-4}通过高斯图模块和图卷积模块，模型可以很好的模拟长序列中不同实体之间的可能的关系并做卷积学习。
+\songti\zihao{-4}特别的，本文介绍的的模型包含有预训练语言模块——BERT、图结构模块——图卷积神经网络。
+\songti\zihao{-4}通过图卷积神经网络，模型可以很好的模拟长序列中不同实体之间的可能的关系并做卷积学习。
 \songti\zihao{-4}这种机制在处理长序列方面有很大的潜力。
 
 \songti\zihao{-4}在将来，应当更关注于这一模型在其他级别的数据上的泛化能力以及讨论模型的可解释性。
